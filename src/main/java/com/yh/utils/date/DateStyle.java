@@ -5,7 +5,7 @@ package com.yh.utils.date;
  */
 public enum DateStyle {  
     
-    YYYY_MM("yyyy-MM", false),  
+    YYYY_MM("yyyy-MM", false),   
     YYYY_MM_DD("yyyy-MM-dd", false),  
     YYYY_MM_DD_HH_MM("yyyy-MM-dd HH:mm", false),  
     YYYY_MM_DD_HH_MM_SS("yyyy-MM-dd HH:mm:ss", false),  
