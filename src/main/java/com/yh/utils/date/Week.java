@@ -3,6 +3,7 @@ package com.yh.utils.date;
  * @author yanghao 
  * @date 2014年9月17日 下午4:57:44
  */
+@Deprecated
 public enum Week {  
 	  
     MONDAY("星期一", "Monday", "Mon.", 1),  
