@@ -37,3 +37,4 @@ Icon
 
 # java compile
 .class
+/target/
