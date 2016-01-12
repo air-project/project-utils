@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * @date 2014年10月2日 下午3:18:14
  */
 public class IPHelper {
-
+  
     /**
      * @category 判断一个ip地址是不是ipv4
      * @param ipAddress
