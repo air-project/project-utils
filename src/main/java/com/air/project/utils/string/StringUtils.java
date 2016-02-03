@@ -1,4 +1,4 @@
-package com.air.utils.string;
+package com.air.project.utils.string;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

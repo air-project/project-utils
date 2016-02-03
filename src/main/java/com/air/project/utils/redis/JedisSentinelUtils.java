@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.air.utils.redis;
+package com.air.project.utils.redis;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.air.utils.property.PropertiesLoader;
-import com.air.utils.string.StringUtils;
+import com.air.project.utils.property.PropertiesLoader;
+import com.air.project.utils.string.StringUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;

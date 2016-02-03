@@ -3,7 +3,7 @@
  * private static PropertiesLoader loader=new PropertiesLoader("/jedis/jedis.properties");
    loader.getxxx....
  */
-package com.air.utils.property;
+package com.air.project.utils.property;
 
 import java.io.IOException;
 import java.io.InputStream;

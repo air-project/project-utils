@@ -1,4 +1,4 @@
-package com.air.utils.date;
+package com.air.project.utils.date;
 /** 
  * @author yanghao 
  * @date 2014年9月17日 下午4:57:44
