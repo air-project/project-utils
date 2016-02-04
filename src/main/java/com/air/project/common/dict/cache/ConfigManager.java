@@ -22,7 +22,7 @@ import com.google.common.collect.Maps;
  */
 public class ConfigManager {
 	
-	private static HashMap<String, HashMap<Long, Dict>> map = Maps.newHashMap();
+	private static HashMap<String, HashMap<Long,Dict>> map = Maps.newHashMap();
 	
 	private static SyncAble syncAble;
 	
@@ -48,7 +48,7 @@ public class ConfigManager {
 	 * @param attrId
 	 * @return
 	 */
-	public static String getCnName(Class cls, long attrId) {
+	public static <T extends Dict> String getCnName(Class<T> cls, long attrId) {
 		Dict d = getDict(cls, attrId);
 		if (d != null) {
 			return d.getCnName();
@@ -56,7 +56,7 @@ public class ConfigManager {
 		return null;
 	}
 
-	public static String getValue(Class cls, long attrId) {
+	public static <T extends Dict> String getValue(Class<T> cls, long attrId) {
 		Dict d = getDict(cls, attrId);
 		if (d != null) {
 			return d.getValue();
@@ -64,7 +64,7 @@ public class ConfigManager {
 		return null;
 	}
 
-	public static String getEnName(Class cls, long attrId) {
+	public static <T extends Dict> String getEnName(Class<T> cls, long attrId) {
 		Dict d = getDict(cls, attrId);
 		if (d != null) {
 			 return d.getEnName();
@@ -77,7 +77,7 @@ public class ConfigManager {
 	 * @param cls
 	 * @return
 	 */
-	public static Collection<Dict> getList(Class cls) {
+	public static <T extends Dict> Collection<Dict> getList(Class<T> cls) {
 		String type = getType(cls);
 		check(type, cls, 0);
 		if (map.containsKey(type)) {
@@ -92,7 +92,7 @@ public class ConfigManager {
 	 * @param attrId
 	 * @return
 	 */
-	public static Dict getDict(Class cls, long attrId) {
+	public static <T extends Dict> Dict getDict(Class<T> cls, long attrId) {
 		String type = getType(cls);
 		check(type, cls, attrId);
 		if (map.containsKey(type)) {
@@ -119,7 +119,7 @@ public class ConfigManager {
 			}
 		}
 	}
-	private static String getType(Class cls) {
+	private static <T extends Dict> String getType(Class<T> cls) {
 		if (cls.isAnnotationPresent(BeanType.class)) {
 			BeanType beanType = (BeanType) cls.getAnnotation(BeanType.class);
 			String type = beanType.value();
@@ -127,7 +127,7 @@ public class ConfigManager {
 		}
 		return null;
 	}
-	private static String getLable(Class cls) {
+	private static <T extends Dict> String getLable(Class<T> cls) {
 		if (cls.isAnnotationPresent(BeanType.class)) {
 			BeanType beanType = (BeanType) cls.getAnnotation(BeanType.class);
 			String lable = beanType.lable();
@@ -135,7 +135,7 @@ public class ConfigManager {
 		}
 		return null;
 	}
-	private static void check(String type, Class cls, long attrId) {
+	private static <T extends Dict> void check(String type, Class<T> cls, long attrId) {
 		if (map.containsKey(type)) {
 			if (map.get(type).containsKey(attrId)) {
 				return;
@@ -175,5 +175,4 @@ public class ConfigManager {
 			}
 		}
 	}
-	
 }
