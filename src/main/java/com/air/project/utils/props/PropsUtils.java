@@ -2,7 +2,7 @@ package com.air.project.utils.props;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ24ÈÕÏÂÎç10:06:39
+ * 2015å¹´12æœˆ24æ—¥ä¸‹åˆ10:06:39
  *  
  */
 public class PropsUtils {

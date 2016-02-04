@@ -2,7 +2,7 @@ package com.air.project.utils.random;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ24ÈÕÏÂÎç10:28:17
+ * 2015å¹´12æœˆ24æ—¥ä¸‹åˆ10:28:17
  *  
  */
 public class RandomUtils {

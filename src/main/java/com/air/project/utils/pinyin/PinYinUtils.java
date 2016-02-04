@@ -2,7 +2,7 @@ package com.air.project.utils.pinyin;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ24ÈÕÏÂÎç10:27:22
+ * 2015å¹´12æœˆ24æ—¥ä¸‹åˆ10:27:22
  *  
  */
 public class PinYinUtils {

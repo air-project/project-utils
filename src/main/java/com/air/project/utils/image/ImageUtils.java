@@ -2,7 +2,7 @@ package com.air.project.utils.image;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ24ÈÕÏÂÎç10:24:55
+ * 2015å¹´12æœˆ24æ—¥ä¸‹åˆ10:24:55
  *  
  */
 public class ImageUtils {

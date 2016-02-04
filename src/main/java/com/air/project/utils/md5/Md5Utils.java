@@ -2,7 +2,7 @@ package com.air.project.utils.md5;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ22ÈÕÏÂÎç10:33:17
+ * 2015å¹´12æœˆ22æ—¥ä¸‹åˆ10:33:17
  *  
  */
 public class Md5Utils {

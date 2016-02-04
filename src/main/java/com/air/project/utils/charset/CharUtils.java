@@ -2,7 +2,7 @@ package com.air.project.utils.charset;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ24ÈÕÏÂÎç10:08:34
+ * 2015å¹´12æœˆ24æ—¥ä¸‹åˆ10:08:34
  *  
  */
 public class CharUtils {

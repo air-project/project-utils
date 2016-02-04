@@ -2,7 +2,7 @@ package com.air.project.utils.ajax;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ22ÈÕÏÂÎç10:17:05
+ * 2015å¹´12æœˆ22æ—¥ä¸‹åˆ10:17:05
  *  
  */
 public class AjaxUtils{
