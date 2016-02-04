@@ -2,7 +2,7 @@ package com.air.project.utils.file;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ22ÈÕÏÂÎç10:32:07
+ * 2015å¹´12æœˆ22æ—¥ä¸‹åˆ10:32:07
  *  
  */
 public class FileUtils {

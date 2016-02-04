@@ -2,7 +2,7 @@ package com.air.project.utils.xss;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ22ÈÕÏÂÎç10:34:12
+ * 2015å¹´12æœˆ22æ—¥ä¸‹åˆ10:34:12
  *  
  */
 public class XssUtils {

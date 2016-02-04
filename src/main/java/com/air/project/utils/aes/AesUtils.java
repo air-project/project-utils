@@ -2,7 +2,7 @@ package com.air.project.utils.aes;
 
 /**
  * @author yh
- * 2015Äê12ÔÂ22ÈÕÏÂÎç10:15:25
+ * 2015å¹´12æœˆ22æ—¥ä¸‹åˆ10:15:25
  *  
  */
 public class AesUtils{
