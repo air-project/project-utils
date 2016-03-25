@@ -21,4 +21,5 @@ public @interface BeanType {
 	//数据字典名字
 	String lable();
 	
+	
 }

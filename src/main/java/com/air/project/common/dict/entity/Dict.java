@@ -4,6 +4,8 @@
 package com.air.project.common.dict.entity;
 
 
+import com.air.project.common.dict.IDict;
+
 import lombok.Data;
 
 /**
@@ -12,8 +14,9 @@ import lombok.Data;
  * 2016年2月3日 下午1:40:59
  */
 @Data
-public class Dict {
+public class Dict implements IDict{
 	
+	private static final long serialVersionUID = -7314025820623506939L;
 	public long id;
 	/**
 	 * @see com.air.project.common.dict.entity.DelFlag
