@@ -1,5 +1,5 @@
 /**
- * 
+ * 数据字典同步接口
  */
 package com.air.project.common.dict;
 
@@ -13,7 +13,14 @@ import com.air.project.common.dict.entity.Dict;
  * 2016年2月3日 下午2:57:02
  */
 public interface SyncAble {
-	public List<Dict> getList();
+	/**
+	 *	获取所有数据字典 
+	 */
+	List<Dict> getAllList();
 	
-	public void save(Dict dict);
+	/**
+	 * 保存数据字典
+	 * @param dict 字典
+	 */
+	void save(Dict dict);
 }

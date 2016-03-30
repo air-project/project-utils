@@ -1,17 +1,21 @@
 /**
- * 
+ * 配置管理器
+ * 获取所有Dict子类
+ * 如果有syncAble实现，可以同步到数据库
  */
-package com.air.project.common.dict.cache;
+package com.air.project.common.dict;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import com.air.project.common.dict.SyncAble;
 import com.air.project.common.dict.annotations.BeanAttr;
 import com.air.project.common.dict.annotations.BeanType;
+import com.air.project.common.dict.entity.DelFlag;
 import com.air.project.common.dict.entity.Dict;
+import com.air.project.utils.collection.Lists;
 import com.air.project.utils.string.StringUtils;
 import com.google.common.collect.Maps;
 
@@ -20,33 +24,43 @@ import com.google.common.collect.Maps;
  *
  * 2016年2月3日 下午2:41:54
  */
-public class ConfigManager {
+public final class ConfigManager {
+
+	/**
+	 * 数据字典缓存
+	 * key为beanType中的Value唯一
+	 */
+	private static HashMap<String, HashMap<Long,Dict>> dictCache = Maps.newHashMap();
 	
-	private static HashMap<String, HashMap<Long,Dict>> map = Maps.newHashMap();
-	
+	/**
+	 * 数据同步接口
+	 */
 	private static SyncAble syncAble;
 	
 	private static boolean hasSync(){
 		return syncAble!=null;
 	}
 	
+	/**
+	 * 从数据库初始化
+	 * @param syncAble
+	 */
 	public static void init(SyncAble syncAble){
 		ConfigManager.syncAble=syncAble;
 		if(hasSync()){
-			List<Dict> list=syncAble.getList();
+			List<Dict> list=syncAble.getAllList();
 			for(Dict d:list){
 				trans(d);
 			}
 		}
-		
 	}
 	
 	
 	/**
 	 * 获取中文名
-	 * @param cls
-	 * @param attrId
-	 * @return
+	 * @param cls 类
+	 * @param attrId 属性
+	 * @return 中文名
 	 */
 	public static <T extends Dict> String getCnName(Class<T> cls, long attrId) {
 		Dict d = getDict(cls, attrId);
@@ -55,7 +69,12 @@ public class ConfigManager {
 		}
 		return null;
 	}
-
+	/**
+	 * 获取值
+	 * @param cls 类
+	 * @param attrId 属性
+	 * @return 值
+	 */
 	public static <T extends Dict> String getValue(Class<T> cls, long attrId) {
 		Dict d = getDict(cls, attrId);
 		if (d != null) {
@@ -63,7 +82,12 @@ public class ConfigManager {
 		}
 		return null;
 	}
-
+	/**
+	 * 获取英文名
+	 * @param cls 类
+	 * @param attrId 属性
+	 * @return 英文名
+	 */
 	public static <T extends Dict> String getEnName(Class<T> cls, long attrId) {
 		Dict d = getDict(cls, attrId);
 		if (d != null) {
@@ -71,32 +95,69 @@ public class ConfigManager {
 		}
 		return null;
 	}
-
 	/**
-	 * 获取类型
-	 * @param cls
-	 * @return
+	 * 获取备注
+	 * @param cls 类
+	 * @param attrId 属性
+	 * @return 备注
 	 */
-	public static <T extends Dict> Collection<Dict> getList(Class<T> cls) {
-		String type = getType(cls);
-		check(type, cls, 0);
-		if (map.containsKey(type)) {
-			HashMap<Long, Dict> tmp = map.get(type);
-			return tmp.values();
+	public static <T extends Dict> String getRemark(Class<T> cls, long attrId) {
+		Dict d = getDict(cls, attrId);
+		if (d != null) {
+			 return d.getRemark();
 		}
 		return null;
 	}
+	
+	/**
+	 * 获取类型
+	 * @param cls
+	 * @return 集合
+	 */
+	public static <T extends Dict> List<Dict> getList(Class<T> cls) {
+		String type = getType(cls);
+		check(type, cls, 0);
+		if (dictCache.containsKey(type)) {
+			HashMap<Long, Dict> tmp = dictCache.get(type);
+			return new ArrayList<Dict>(tmp.values());
+		}
+		return Collections.emptyList();
+	}
+	
+	/**
+	 * 获取部分或者所有
+	 * @param cls 类
+	 * @param includeIds 包含属性
+	 * @return 部分或者所有属性
+	 */
+	public static <T extends Dict> List<Dict> getList(Class<T> cls,Long... includeIds) {
+		List<Dict> list = getList(cls);
+		if(includeIds==null){
+			return list;
+		}else{
+			List<Long> attList=Lists.asList(includeIds);
+			for(int i=list.size()-1;i>=0;i--){
+				Dict d = list.get(i);
+				if(!attList.contains(d.attr)){
+					list.remove(i);
+				}
+			}
+		}
+		return list;
+	}
+	
+	
 	/**
 	 * 获取数据字典
 	 * @param cls
 	 * @param attrId
-	 * @return
+	 * @return 类
 	 */
 	public static <T extends Dict> Dict getDict(Class<T> cls, long attrId) {
 		String type = getType(cls);
 		check(type, cls, attrId);
-		if (map.containsKey(type)) {
-			HashMap<Long, Dict> tmp = map.get(type);
+		if (dictCache.containsKey(type)) {
+			HashMap<Long, Dict> tmp = dictCache.get(type);
 			return tmp.get(attrId);
 		}
 		return null;
@@ -109,16 +170,21 @@ public class ConfigManager {
 	private static void trans(Dict d) {
 		String type = d.getType();
 		if (!StringUtils.isEmpty(type)) {
-			HashMap<Long, Dict> tmp = map.get(type);
+			HashMap<Long, Dict> tmp = dictCache.get(type);
 			if (tmp == null || tmp.isEmpty()) {
-				map.put(type, new HashMap<Long, Dict>());
+				dictCache.put(type, new HashMap<Long, Dict>());
 			}
 			long atrr = d.getAttr();
 			if (atrr!=0) {
-				map.get(type).put(d.getAttr(), d);
+				dictCache.get(type).put(d.getAttr(), d);
 			}
 		}
 	}
+	/**
+	 * 获取类型
+	 * @param cls 类
+	 * @return 类型
+	 */
 	private static <T extends Dict> String getType(Class<T> cls) {
 		if (cls.isAnnotationPresent(BeanType.class)) {
 			BeanType beanType = (BeanType) cls.getAnnotation(BeanType.class);
@@ -135,15 +201,21 @@ public class ConfigManager {
 		}
 		return null;
 	}
+	/**
+	 * 检测并放入缓存或者数据库
+	 * @param type 类型
+	 * @param cls 类
+	 * @param attrId 属性
+	 */
 	private static <T extends Dict> void check(String type, Class<T> cls, long attrId) {
-		if (map.containsKey(type)) {
-			if (map.get(type).containsKey(attrId)) {
+		if (dictCache.containsKey(type)) {
+			if (dictCache.get(type).containsKey(attrId)) {
 				return;
 			}
 		}else{
-			map.put(type, new HashMap<Long, Dict>());
+			dictCache.put(type, new HashMap<Long, Dict>());
 		}
-		HashMap<Long, Dict> tmp = map.get(type);
+		HashMap<Long, Dict> tmp = dictCache.get(type);
 		String lable = getLable(cls);
 		Field[] at = cls.getDeclaredFields();
 		for (Field f : at) {
@@ -163,7 +235,8 @@ public class ConfigManager {
 						d.setCnName(ba.cnName());
 						d.setRefAttr(ba.refAttr());
 						d.setSystemType(ba.systemType());
-						map.get(type).put(attr, d);
+						d.setRemark(ba.remark());
+						dictCache.get(type).put(attr, d);
 						// insert to DB
 						if(hasSync()){
 							syncAble.save(d);
@@ -174,5 +247,11 @@ public class ConfigManager {
 				}
 			}
 		}
+	}
+	
+	
+	public static void main(String[] args) {
+		List<Dict> list=getList(DelFlag.class);
+		list.forEach(u->System.out.println(u.cnName));
 	}
 }

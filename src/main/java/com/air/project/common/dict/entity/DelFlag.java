@@ -14,6 +14,8 @@ import com.air.project.common.dict.annotations.BeanType;
 @BeanType(value = "del_flag", lable = "删除标记")
 public class DelFlag extends Dict {
 	
+	private static final long serialVersionUID = -6612149292819134089L;
+
 	@BeanAttr(cnName="未删除")
 	public static long NOT_DELETE=1L;
 

@@ -1,5 +1,5 @@
 /**
- * 
+ *	
  */
 package com.air.project.common.dict.annotations;
 
@@ -28,6 +28,8 @@ public @interface BeanAttr {
 
 	/** 对应Dictionary对象中enName;如果为空,默认使用attr值 */
 	String enName() default "";
+	
+	String remark() default "";
 
 //	/** 引用的Class */
 //	Class<? extends Dict> refClass() default Dict.class;
