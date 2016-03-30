@@ -3,7 +3,7 @@
  * 获取所有Dict子类
  * 如果有syncAble实现，可以同步到数据库
  */
-package com.air.project.common.dict.cache;
+package com.air.project.common.dict;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import com.air.project.common.dict.SyncAble;
 import com.air.project.common.dict.annotations.BeanAttr;
 import com.air.project.common.dict.annotations.BeanType;
 import com.air.project.common.dict.entity.DelFlag;
@@ -96,7 +95,20 @@ public final class ConfigManager {
 		}
 		return null;
 	}
-
+	/**
+	 * 获取备注
+	 * @param cls 类
+	 * @param attrId 属性
+	 * @return 备注
+	 */
+	public static <T extends Dict> String getRemark(Class<T> cls, long attrId) {
+		Dict d = getDict(cls, attrId);
+		if (d != null) {
+			 return d.getRemark();
+		}
+		return null;
+	}
+	
 	/**
 	 * 获取类型
 	 * @param cls
@@ -223,6 +235,7 @@ public final class ConfigManager {
 						d.setCnName(ba.cnName());
 						d.setRefAttr(ba.refAttr());
 						d.setSystemType(ba.systemType());
+						d.setRemark(ba.remark());
 						dictCache.get(type).put(attr, d);
 						// insert to DB
 						if(hasSync()){
