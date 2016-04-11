@@ -17,8 +17,8 @@ public class DelFlag extends Dict {
 	private static final long serialVersionUID = -6612149292819134089L;
 
 	@BeanAttr(cnName="未删除")
-	public static long NOT_DELETE=1L;
+	public static final long NOT_DELETE=1L;
 
 	@BeanAttr(cnName="已删除")
-	public static long DELETED=2L;
+	public static final long DELETED=2L;
 }

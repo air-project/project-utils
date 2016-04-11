@@ -29,9 +29,9 @@ import redis.clients.jedis.exceptions.JedisException;
  *         2016年1月26日 下午5:54:55
  */
 public class JedisSentinelUtils {
-	private static Logger LOG = LoggerFactory.getLogger(JedisSentinelUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JedisSentinelUtils.class);
 
-	public static JedisSentinelPool sentinelPool;
+	private static JedisSentinelPool sentinelPool;
 	/**
 	 * 属性文件加载对象
 	 */
@@ -48,7 +48,9 @@ public class JedisSentinelUtils {
 		}
 		initPool();
 	}
-
+	private JedisSentinelUtils(){
+		
+	}
 	private static void initPool() {
 		sentinelPool = new JedisSentinelPool(loader.getProperty("sentinels1.masterName"), sentinels);
 		LOG.info("Current master:{0} ", sentinelPool.getCurrentHostMaster().toString());
