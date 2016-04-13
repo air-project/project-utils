@@ -19,30 +19,38 @@ import lombok.Data;
 public class Dict implements IDict,Serializable,Cloneable{
 	
 	private static final long serialVersionUID = -7314025820623506939L;
-	public long id;
+	private long id;
 	/**
 	 * @see com.air.project.common.dict.entity.DelFlag
 	 */
-	public long delFlag=DelFlag.NOT_DELETE;
+	private long delFlag=DelFlag.NOT_DELETE;
 	
 	/** 数据字典类型 唯一
 	 * @see com.air.project.common.dict.annotations.BeanType
 	 */
-	public String type;
+	private String type;
 	/**
 	 * 类型中文
 	 */
-	public String lable;
+	private String lable;
 	
 	/** 属性值
 	 * @see com.air.project.common.dict.annotations.BeanAttr
 	 */
-	public long attr;
-	public String value;
-	public long sortBy;
-	public long refAttr;
-	public long systemType;
-	public String cnName;
-	public String enName;
-	public String remark;
+	private long attr;
+	private String value;
+	private long sortBy;
+	private long refAttr;
+	private long systemType;
+	private String cnName;
+	private String enName;
+	private String remark;
+
+	public Dict() {
+		super();
+	}
+	
+	public static Dict newInstance() {
+		return new Dict();
+	}
 }

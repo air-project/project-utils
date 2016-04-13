@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.air.project.common.dict.annotations.BeanAttr;
 import com.air.project.common.dict.annotations.BeanType;
@@ -30,13 +31,16 @@ public final class ConfigManager {
 	 * 数据字典缓存
 	 * key为beanType中的Value唯一
 	 */
-	private static HashMap<String, HashMap<Long,Dict>> dictCache = Maps.newHashMap();
+	private static Map<String, Map<Long,Dict>> dictCache = Maps.newHashMap();
 	
 	/**
 	 * 数据同步接口
 	 */
 	private static SyncAble syncAble;
 	
+	private ConfigManager(){
+		
+	}
 	private static boolean hasSync(){
 		return syncAble!=null;
 	}
@@ -118,7 +122,7 @@ public final class ConfigManager {
 		String type = getType(cls);
 		check(type, cls, 0);
 		if (dictCache.containsKey(type)) {
-			HashMap<Long, Dict> tmp = dictCache.get(type);
+			Map<Long, Dict> tmp = dictCache.get(type);
 			return new ArrayList<Dict>(tmp.values());
 		}
 		return Collections.emptyList();
@@ -138,7 +142,7 @@ public final class ConfigManager {
 			List<Long> attList=Lists.asList(includeIds);
 			for(int i=list.size()-1;i>=0;i--){
 				Dict d = list.get(i);
-				if(!attList.contains(d.attr)){
+				if(!attList.contains(d.getAttr())){
 					list.remove(i);
 				}
 			}
@@ -157,7 +161,7 @@ public final class ConfigManager {
 		String type = getType(cls);
 		check(type, cls, attrId);
 		if (dictCache.containsKey(type)) {
-			HashMap<Long, Dict> tmp = dictCache.get(type);
+			Map<Long, Dict> tmp = dictCache.get(type);
 			return tmp.get(attrId);
 		}
 		return null;
@@ -170,7 +174,7 @@ public final class ConfigManager {
 	private static void trans(Dict d) {
 		String type = d.getType();
 		if (!StringUtils.isEmpty(type)) {
-			HashMap<Long, Dict> tmp = dictCache.get(type);
+			Map<Long, Dict> tmp = dictCache.get(type);
 			if (tmp == null || tmp.isEmpty()) {
 				dictCache.put(type, new HashMap<Long, Dict>());
 			}
@@ -188,8 +192,7 @@ public final class ConfigManager {
 	private static <T extends Dict> String getType(Class<T> cls) {
 		if (cls.isAnnotationPresent(BeanType.class)) {
 			BeanType beanType = (BeanType) cls.getAnnotation(BeanType.class);
-			String type = beanType.value();
-			return type;
+			return beanType.value();
 		}
 		return null;
 	}
@@ -215,7 +218,7 @@ public final class ConfigManager {
 		}else{
 			dictCache.put(type, new HashMap<Long, Dict>());
 		}
-		HashMap<Long, Dict> tmp = dictCache.get(type);
+		Map<Long, Dict> tmp = dictCache.get(type);
 		String lable = getLable(cls);
 		Field[] at = cls.getDeclaredFields();
 		for (Field f : at) {
@@ -225,7 +228,7 @@ public final class ConfigManager {
 					long attr = f.getLong(cls);
 					if (!tmp.containsKey(attr)) {
 						BeanAttr ba = (BeanAttr) f.getAnnotation(BeanAttr.class);
-						Dict d = new Dict();
+						Dict d = Dict.newInstance();
 						d.setAttr(attr);
 						d.setType(type);
 						d.setLable(lable);
@@ -252,6 +255,6 @@ public final class ConfigManager {
 	
 	public static void main(String[] args) {
 		List<Dict> list=getList(DelFlag.class);
-		list.forEach(u->System.out.println(u.cnName));
+		list.forEach(u->System.out.println(u.getCnName()));
 	}
 }
